@@ -1,0 +1,19 @@
+{
+    "name": "cezbil/domino",
+    "description": "dominos game cli",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Cezary Bilda",
+            "email": "cezarybilda@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "DominoGame\\": "Classes/"
+        }
+    },
+    "require": {
+        "symfony/console": "^5.3"
+    }
+}
