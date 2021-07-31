@@ -58,5 +58,14 @@ class DominosTilesDeck
         }
         return $player->handToString();
     }
-
+    /**
+     * @return string
+     */
+    public function toString() : string
+    {
+        $map = array_map(function (DominoTile $dominoTile) {
+            return $dominoTile->toString();
+        }, $this->dominoTiles);
+        return join('-', $map);
+    }
 }

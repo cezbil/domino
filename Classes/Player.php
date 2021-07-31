@@ -77,5 +77,37 @@ class Player
         }, $this->dominoTiles);
         return join('-', $map);
     }
+    public function getBiggerDouble() {
+        if (empty($this->dominoTiles)) {
+            return 0;
+        }
 
+        $sameSides = array_filter($this->dominoTiles,
+            function (DominoTile $tile) {
+                return $tile->sameSides();
+            }
+        );
+
+        if (empty($sameSides)) {
+            return [];
+        }
+
+        $maxSameSide = reset($sameSides);
+        $max = $maxSameSide->getHeads();
+
+        foreach ($sameSides as $sameSidePiece) {
+            if ($sameSidePiece->getHeads() > $max) {
+                $maxSameSide = $sameSidePiece;
+                $max = $sameSidePiece->getHeads();
+            }
+        }
+
+        return $maxSameSide;
+    }
+    public function removeTilebyIndex(int $index): DominoTile
+    {
+        $tileToReturn = $this->dominoTiles[$index];
+        unset($this->dominoTiles[$index]);
+        return $tileToReturn;
+    }
 }

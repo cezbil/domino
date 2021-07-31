@@ -21,6 +21,11 @@ class DominoTile
     private $score;
 
     /**
+     * @var bool
+     */
+    private $flip;
+
+    /**
      * Domino constructor.
      *
      * @param  int  $head
@@ -32,9 +37,13 @@ class DominoTile
         $this->head = $head;
         $this->tail = $tail;
         $this->score = $score;
+        $this->flip = false;
     }
 
 
+    /**
+     * @return string
+     */
     public function toString() : string
     {
         return '[' . $this->head . ',' . $this->tail . ']';
@@ -86,5 +95,29 @@ class DominoTile
     public function setScore(int $score): void
     {
         $this->score = $score;
+    }
+
+    /**
+     * @return bool
+     */
+    public function sameSides() {
+        return $this->head === $this->tail;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeads() {
+        return $this->flip ? $this->tail : $this->head;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTails() {
+        return $this->flip ? $this->head : $this->tail;
+    }
+    public function flip() {
+        $this->flip = true;
     }
 }
