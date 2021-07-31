@@ -14,7 +14,7 @@ class Player
     /**
      * @var DominoTile[]
      */
-    private $dominoTiles;
+    private $dominoTiles = [];
 
     /**
      * Player constructor.
@@ -38,7 +38,7 @@ class Player
      */
     public function printName(): string
     {
-        return 'Player' . $this->name;
+        return 'Player:' . $this->name;
     }
 
     /**
@@ -64,4 +64,18 @@ class Player
     {
         $this->dominoTiles = $dominoTiles;
     }
+
+    public function addNewTile(DominoTile $dominoTile)
+    {
+        array_push($this->dominoTiles, $dominoTile);
+    }
+
+    public function handToString() : string
+    {
+        $map = array_map(function (DominoTile $dominoTile) {
+            return $dominoTile->toString();
+        }, $this->dominoTiles);
+        return join('-', $map);
+    }
+
 }

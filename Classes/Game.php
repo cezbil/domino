@@ -16,9 +16,14 @@ class Game
     /**
      * @var DominoTile[]
      */
-    private $dominoTiles;
+    private $dominoTiles = [];
 
-    private $numberOfPlayers;
+    private $numberOfPlayers = 0;
+
+    /**
+     * @var Player[]
+     */
+    private $players = [];
 
     /**
      * Game constructor.
@@ -28,16 +33,18 @@ class Game
     {
     }
 
-    public function createDominoTiles() {
-        $score = 0;
-        for ($i = 0; $i <= 6; $i++) {
-            for ($n = $i; $n <= 6; $n++) {
-                $score++;
-                $tile = new DominoTile($i, $n, $score);
-                $this->dominoTiles[] = $tile;
-            }
-        }
+    public function start(array $names)
+    {
+        $deck = new DominosTilesDeck();
+        $this->playersInception($names, $deck);
+    }
 
-        shuffle($this->dominoTiles);
+    public function playersInception(array $names, DominosTilesDeck $deck)
+    {
+        foreach ($names as $name) {
+            $player = new Player($name);
+            array_push($this->players, $player);
+            $tilesInHand = $deck->createHandForPlayer($player);
+        }
     }
 }
