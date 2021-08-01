@@ -26,6 +26,14 @@ class DominoTile
     private $flip;
 
     /**
+     * @return bool
+     */
+    public function isFlip(): bool
+    {
+        return $this->flip;
+    }
+
+    /**
      * Domino constructor.
      *
      * @param  int  $head
@@ -54,7 +62,7 @@ class DominoTile
      */
     public function getHead(): int
     {
-        return $this->head;
+        return !$this->isFlip() ? $this->head : $this->tail;
     }
 
     /**
@@ -70,7 +78,7 @@ class DominoTile
      */
     public function getTail(): int
     {
-        return $this->tail;
+        return !$this->isFlip() ? $this->tail : $this->head;
     }
 
     /**

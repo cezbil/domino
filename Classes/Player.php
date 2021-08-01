@@ -110,4 +110,28 @@ class Player
         unset($this->dominoTiles[$index]);
         return $tileToReturn;
     }
+    public function removeDominoByScore(int $score)
+    {
+        array_walk($this->dominoTiles, function (DominoTile $domino, $key) use ($score) {
+            if ($domino->getScore() === $score) {
+                unset($this->dominoTiles[$key]);
+            }
+        });
+    }
+    public function getPlayableTilesForPlayer(array $sides)
+    {
+       return array_filter($this->dominoTiles, function (DominoTile $domino) use ($sides) {
+            if (
+                $this->checkIfMatch($domino->getHead(), $sides) ||
+                $this->checkIfMatch($domino->getTail(), $sides)
+            ) {
+                return $domino;
+            }
+        });
+    }
+    public function checkIfMatch($dominoSide, $boardSides)
+    {
+        return in_array($dominoSide, $boardSides);
+    }
+
 }

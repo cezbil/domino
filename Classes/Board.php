@@ -21,22 +21,51 @@ class Board
     private $ends;
 
     /**
+     * @return DominoTile[]
+     */
+    public function getDominoTiles(): array
+    {
+        return $this->dominoTiles;
+    }
+
+    /**
+     * @param  DominoTile[]  $dominoTiles
+     */
+    public function setDominoTiles(array $dominoTiles): void
+    {
+        $this->dominoTiles = $dominoTiles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEnds(): array
+    {
+        return $this->ends;
+    }
+
+    /**
+     * @param  array  $ends
+     */
+    public function setEnds(array $ends): void
+    {
+        $this->ends = $ends;
+    }
+
+    /**
      * @param  DominoTile  $dominoTile
      */
     public function matchesDominoTile(DominoTile $dominoTile)
     {
         if ($dominoTile->getHead() === $this->ends[1]){
-            return 'right';
+            $this->addEndTile($dominoTile);
+            return end($this->dominoTiles);
         } else if ($dominoTile->getTail() === $this->ends[0]) {
-            return 'left';
-        } else if ($dominoTile->getHead() === $this->ends[0]) {
-            $dominoTile->turn();
-            return 'left';
-        } else if ($dominoTile->getTail() === $this->ends[1]) {
-            $dominoTile->turn();
-            return 'right';
-        } else {
-            return false;
+            $this->addStartTile($dominoTile);
+            return $this->dominoTiles[0];
+        } else if (!$dominoTile->isFlip()) {
+            $dominoTile->flip();
+            return $this->matchesDominoTile($dominoTile);
         }
     }
 
@@ -62,6 +91,11 @@ class Board
     public function addStartTile(DominoTile $tile) : void
     {
         array_unshift($this->dominoTiles, $tile);
+        $this->createEnds();
+    }
+    public function addEndTile(DominoTile $tile) : void
+    {
+        array_push($this->dominoTiles, $tile);
         $this->createEnds();
     }
 

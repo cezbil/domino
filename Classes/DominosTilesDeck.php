@@ -32,7 +32,6 @@ class DominosTilesDeck
     public function shuffleTiles() : DominosTilesDeck
     {
         shuffle($this->dominoTiles);
-
         return $this;
     }
 

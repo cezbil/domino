@@ -42,10 +42,10 @@ class Game
         $this->printPlayersHand();
         $this->printPiecesLeft($deck);
         /* Choose a random member and card to start the fight. */
-        $startTile = $this->randomizeStart($board);
+        $startTile = $this->makeRandomStart($board);
         print_r($board->toString());
         /* Runs the loop until the game ends. */
-        $this->run($board, $pack);
+        $this->run($board, $deck);
     }
 
     public function playersInception(array $names, DominosTilesDeck $deck)
@@ -69,20 +69,35 @@ class Game
         $rounds = 1;
         while (true) {
             $rounds++;
+            $currentPlayer = $this->nextPlayer();
+            $dominoTilesReadyToPlay = $currentPlayer->getPlayableTilesForPlayer($board->getEnds());
 
+            if (count($dominoTilesReadyToPlay) > 0) {
+                $selectedDomino = reset($dominoTilesReadyToPlay);
+                $currentPlayer->removeDominoByScore($selectedDomino->getScore());
+                $addSelected = $board->matchesDominoTile($selectedDomino);
+                print_r(PHP_EOL . $currentPlayer->printName() . ' plays' . $addSelected->toString());
+                print_r(PHP_EOL . ' current state of the board' . $board->toString());
+
+            }
         }
     }
 
-    private function randomizeStart(Board $board) : DominoTile
+    private function makeRandomStart(Board $board) : DominoTile
     {
-
         $player = $this->players[0];
-        $rTile = mt_rand(0, DominosTilesDeck::CARDS_IN_HAND - 1);
+        $rTile = rand(0, DominosTilesDeck::CARDS_IN_HAND - 1);
         $tile = $player->removeTilebyIndex($rTile);
 
-        /* Add first domino to the board */
         $board->addStartTile($tile);
 
         return $tile;
     }
+    private function nextPlayer() : Player
+    {
+        array_push( $this->players, array_shift($this->players));
+        return $this->players[0];
+    }
+
+
 }
