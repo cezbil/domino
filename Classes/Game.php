@@ -20,8 +20,14 @@ class Game
      */
     private $dominoTiles = [];
 
+    /**
+     * @var int
+     */
     private $numberOfPlayers = 0;
 
+    /**
+     * @var bool
+     */
     private $gameWon = false;
 
     /**
@@ -29,6 +35,9 @@ class Game
      */
     private $players = [];
 
+    /**
+     * @var OutputInterface
+     */
     private $output;
 
     /**
@@ -41,6 +50,9 @@ class Game
         $this->output = $output;
     }
 
+    /**
+     * @param  array  $names
+     */
     public function start(array $names)
     {
         $this->output->writeln('<info>new game starts</info>');
@@ -56,6 +68,10 @@ class Game
         $this->run($board, $deck);
     }
 
+    /**
+     * @param  array  $names
+     * @param  DominosTilesDeck  $deck
+     */
     public function playersInception(array $names, DominosTilesDeck $deck)
     {
         foreach ($names as $name) {
@@ -64,14 +80,27 @@ class Game
             $tilesInHand = $deck->createHandForPlayer($player);
         }
     }
+
+    /**
+     *
+     */
     public function printPlayersHand() {
         foreach ($this->players as $player) {
             $this->output->writeln('<info>' . $player->printName() . ' ' . $player->handToString() . PHP_EOL . '</info>');
         }
     }
+
+    /**
+     * @param  DominosTilesDeck  $deck
+     */
     public function printPiecesLeft(DominosTilesDeck $deck) {
         $this->output->writeln(PHP_EOL . $deck->toString() . '</comment>');
     }
+
+    /**
+     * @param  Board  $board
+     * @param  DominosTilesDeck  $dominosTilesDeck
+     */
     public function run(Board $board, DominosTilesDeck $dominosTilesDeck)
     {
         $rounds = 0;
@@ -101,6 +130,11 @@ class Game
         }
     }
 
+    /**
+     * @param  Board  $board
+     *
+     * @return DominoTile
+     */
     private function makeRandomStart(Board $board) : DominoTile
     {
         $player = $this->players[0];
@@ -111,6 +145,12 @@ class Game
 
         return $tile;
     }
+
+    /**
+     * @param  Player  $currentPlayer
+     * @param  DominosTilesDeck  $dominosTilesDeck
+     * @param $dominoTilesReadyToPlay
+     */
     private function endGame(
         Player $currentPlayer,
         DominosTilesDeck $dominosTilesDeck,
@@ -138,6 +178,11 @@ class Game
         }
     }
 
+    /**
+     * @param  Board  $board
+     *
+     * @return DominoTile
+     */
     private function makeStart(Board $board) : DominoTile
     {
         $player = $this->pickPlayerWithHighestDouble();
@@ -154,6 +199,10 @@ class Game
 
         return $tile;
     }
+
+    /**
+     * @return Player
+     */
     private function pickPlayerWithHighestDouble()
     {
         $score = 0;
@@ -169,6 +218,9 @@ class Game
         return $this->players[$keyToRetrievePlayer];
     }
 
+    /**
+     * @return Player
+     */
     private function nextPlayer() : Player
     {
         array_push( $this->players, array_shift($this->players));

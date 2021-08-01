@@ -113,9 +113,16 @@ class DominoTile
         return $this->head === $this->tail;
     }
 
+    /**
+     *
+     */
     public function flip() {
         $this->flip = true;
     }
+
+    /**
+     * @return bool
+     */
     public function isDouble() {
         return $this->getHead() == $this->getTail();
     }

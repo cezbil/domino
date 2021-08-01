@@ -8,9 +8,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
+/**
+ * Class StartTheGameCommand
+ *
+ * @package DominoGame
+ */
 class StartTheGameCommand extends Command
 {
 
+    /**
+     *
+     */
     protected function configure(): void
     {
         $this->setName('domino-start')
@@ -22,6 +30,12 @@ class StartTheGameCommand extends Command
                 '<comment>enter names for the players [./startTheGame domino-start "Cezary" "Ralph"]</comment>.'
             );    }
 
+    /**
+     * @param  InputInterface  $input
+     * @param  OutputInterface  $output
+     *
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $playerNames = $input->getArgument('player-names');
@@ -37,6 +51,12 @@ class StartTheGameCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @param  array  $playerNames
+     * @param  OutputInterface  $output
+     *
+     * @return Game
+     */
     private function initGame(array $playerNames, OutputInterface $output) : Game {
         $game = new Game($output);
         $game->start($playerNames);

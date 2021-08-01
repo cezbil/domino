@@ -4,6 +4,11 @@
 namespace DominoGame;
 
 
+/**
+ * Class Player
+ *
+ * @package DominoGame
+ */
 class Player
 {
     /**
@@ -65,11 +70,17 @@ class Player
         $this->dominoTiles = $dominoTiles;
     }
 
+    /**
+     * @param  DominoTile|null  $dominoTile
+     */
     public function addNewTile(?DominoTile $dominoTile)
     {
         array_push($this->dominoTiles, $dominoTile);
     }
 
+    /**
+     * @return string
+     */
     public function handToString() : string
     {
         $map = array_map(function (DominoTile $dominoTile) {
@@ -77,12 +88,22 @@ class Player
         }, $this->dominoTiles);
         return join('-', $map);
     }
+
+    /**
+     * @param  int  $index
+     *
+     * @return DominoTile
+     */
     public function removeTilebyIndex(int $index): DominoTile
     {
         $tileToReturn = $this->dominoTiles[$index];
         unset($this->dominoTiles[$index]);
         return $tileToReturn;
     }
+
+    /**
+     * @param  int  $score
+     */
     public function removeDominoByScore(int $score)
     {
         array_walk($this->dominoTiles, function (?DominoTile $domino, $key) use ($score) {
@@ -93,6 +114,12 @@ class Player
             }
         });
     }
+
+    /**
+     * @param  array  $sides
+     *
+     * @return DominoTile[]
+     */
     public function getPlayableTilesForPlayer(array $sides)
     {
        return array_filter($this->dominoTiles, function (?DominoTile $domino) use ($sides) {
@@ -104,21 +131,40 @@ class Player
             }
         });
     }
+
+    /**
+     * @param $dominoSide
+     * @param $boardSides
+     *
+     * @return bool
+     */
     public function checkIfMatch($dominoSide, $boardSides)
     {
         return in_array($dominoSide, $boardSides);
     }
+
+    /**
+     * @return DominoTile[]
+     */
     public function getDoubles()
     {
         return array_filter($this->dominoTiles, function (DominoTile $domino)  {
             return $domino->isDouble();
         });
     }
+
+    /**
+     * @return false|mixed
+     */
     public function getBiggestDouble()
     {
         $doubles = $this->getDoubles();
         return empty($doubles) ? false : max($doubles);
     }
+
+    /**
+     * @return int
+     */
     public function getTotalDots()
     {
         $total = 0;
@@ -127,6 +173,10 @@ class Player
         }
         return $total;
     }
+
+    /**
+     * @return int
+     */
     public function sizeOfTheHand() : int
     {
         return count($this->dominoTiles);
