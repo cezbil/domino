@@ -65,7 +65,7 @@ class Player
         $this->dominoTiles = $dominoTiles;
     }
 
-    public function addNewTile(DominoTile $dominoTile)
+    public function addNewTile(?DominoTile $dominoTile)
     {
         array_push($this->dominoTiles, $dominoTile);
     }
@@ -76,33 +76,6 @@ class Player
             return $dominoTile->toString();
         }, $this->dominoTiles);
         return join('-', $map);
-    }
-    public function getBiggerDouble() {
-        if (empty($this->dominoTiles)) {
-            return 0;
-        }
-
-        $sameSides = array_filter($this->dominoTiles,
-            function (DominoTile $tile) {
-                return $tile->sameSides();
-            }
-        );
-
-        if (empty($sameSides)) {
-            return [];
-        }
-
-        $maxSameSide = reset($sameSides);
-        $max = $maxSameSide->getHeads();
-
-        foreach ($sameSides as $sameSidePiece) {
-            if ($sameSidePiece->getHeads() > $max) {
-                $maxSameSide = $sameSidePiece;
-                $max = $sameSidePiece->getHeads();
-            }
-        }
-
-        return $maxSameSide;
     }
     public function removeTilebyIndex(int $index): DominoTile
     {
@@ -120,10 +93,10 @@ class Player
     }
     public function getPlayableTilesForPlayer(array $sides)
     {
-       return array_filter($this->dominoTiles, function (DominoTile $domino) use ($sides) {
-            if (
-                $this->checkIfMatch($domino->getHead(), $sides) ||
-                $this->checkIfMatch($domino->getTail(), $sides)
+       return array_filter($this->dominoTiles, function (?DominoTile $domino) use ($sides) {
+            if (!is_null($domino) &&
+                ($this->checkIfMatch($domino->getHead(), $sides) ||
+                $this->checkIfMatch($domino->getTail(), $sides))
             ) {
                 return $domino;
             }

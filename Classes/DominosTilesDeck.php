@@ -40,7 +40,7 @@ class DominosTilesDeck
         return count($this->dominoTiles);
     }
 
-    public function removeTile() : DominoTile
+    public function removeTile() : ?DominoTile
     {
         //return tile simultaneously removing it from the deck
         return array_pop($this->dominoTiles);

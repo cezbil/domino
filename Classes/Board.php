@@ -88,11 +88,18 @@ class Board
         return join('-', $map);
     }
 
+    /**
+     * @param  DominoTile  $tile
+     */
     public function addStartTile(DominoTile $tile) : void
     {
         array_unshift($this->dominoTiles, $tile);
         $this->createEnds();
     }
+
+    /**
+     * @param  DominoTile  $tile
+     */
     public function addEndTile(DominoTile $tile) : void
     {
         array_push($this->dominoTiles, $tile);

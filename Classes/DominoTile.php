@@ -54,7 +54,7 @@ class DominoTile
      */
     public function toString() : string
     {
-        return '[' . $this->head . ',' . $this->tail . ']';
+        return '[' . $this->getHead() . ',' . $this->getTail() . ']';
     }
 
     /**
@@ -63,6 +63,7 @@ class DominoTile
     public function getHead(): int
     {
         return !$this->isFlip() ? $this->head : $this->tail;
+
     }
 
     /**
@@ -112,19 +113,6 @@ class DominoTile
         return $this->head === $this->tail;
     }
 
-    /**
-     * @return int
-     */
-    public function getHeads() {
-        return $this->flip ? $this->tail : $this->head;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTails() {
-        return $this->flip ? $this->head : $this->tail;
-    }
     public function flip() {
         $this->flip = true;
     }

@@ -20,6 +20,8 @@ class Game
 
     private $numberOfPlayers = 0;
 
+    private $gameWon = false;
+
     /**
      * @var Player[]
      */
@@ -67,7 +69,7 @@ class Game
     public function run(Board $board, DominosTilesDeck $dominosTilesDeck)
     {
         $rounds = 1;
-        while (true) {
+        while (!$this->gameWon) {
             $rounds++;
             $currentPlayer = $this->nextPlayer();
             $dominoTilesReadyToPlay = $currentPlayer->getPlayableTilesForPlayer($board->getEnds());
@@ -79,6 +81,9 @@ class Game
                 print_r(PHP_EOL . $currentPlayer->printName() . ' plays' . $addSelected->toString());
                 print_r(PHP_EOL . ' current state of the board' . $board->toString());
 
+            } else {
+                print_r(PHP_EOL . $currentPlayer->printName() . ' picks another domino');
+                $dominosTilesDeck->dealToPlayer($currentPlayer); // take a piece
             }
         }
     }
