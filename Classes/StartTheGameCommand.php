@@ -29,17 +29,16 @@ class StartTheGameCommand extends Command
             $output->writeln('<error>at least 2 players to play</error>');
             Command::FAILURE;
         } else {
-            $game = $this->initGame($playerNames);
+            $game = $this->initGame($playerNames, $output);
 
-            $output->writeln('<info>new game starts</info>');
 
         }
 
         return Command::SUCCESS;
     }
 
-    private function initGame(array $playerNames) : Game {
-        $game = new Game();
+    private function initGame(array $playerNames, OutputInterface $output) : Game {
+        $game = new Game($output);
         $game->start($playerNames);
 
         return $game;

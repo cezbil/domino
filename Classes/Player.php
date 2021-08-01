@@ -85,9 +85,11 @@ class Player
     }
     public function removeDominoByScore(int $score)
     {
-        array_walk($this->dominoTiles, function (DominoTile $domino, $key) use ($score) {
-            if ($domino->getScore() === $score) {
-                unset($this->dominoTiles[$key]);
+        array_walk($this->dominoTiles, function (?DominoTile $domino, $key) use ($score) {
+            if ($domino) {
+                if ($domino->getScore() === $score) {
+                    unset($this->dominoTiles[$key]);
+                }
             }
         });
     }
@@ -106,5 +108,27 @@ class Player
     {
         return in_array($dominoSide, $boardSides);
     }
-
+    public function getDoubles()
+    {
+        return array_filter($this->dominoTiles, function (DominoTile $domino)  {
+            return $domino->isDouble();
+        });
+    }
+    public function getBiggestDouble()
+    {
+        $doubles = $this->getDoubles();
+        return empty($doubles) ? false : max($doubles);
+    }
+    public function getTotalDots()
+    {
+        $total = 0;
+        foreach ($this->dominoTiles as $dominoTile) {
+            $total += $dominoTile->getHead() + $dominoTile->getTail();
+        }
+        return $total;
+    }
+    public function sizeOfTheHand() : int
+    {
+        return count($this->dominoTiles);
+    }
 }
