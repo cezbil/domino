@@ -39,15 +39,12 @@ class StartTheGameCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $playerNames = $input->getArgument('player-names');
-        if (count($playerNames) < 2){
-            $output->writeln('<error>at least 2 players to play</error>');
+        if (count($playerNames) < 2 || count($playerNames) > 4){
+            $output->writeln('<error>2 players min 4 players max</error>');
             Command::FAILURE;
         } else {
             $game = $this->initGame($playerNames, $output);
-
-
         }
-
         return Command::SUCCESS;
     }
 
