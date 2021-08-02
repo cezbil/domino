@@ -14,3 +14,7 @@ composer install
 ```$xslt
 ./startTheGame.php domino-start "Cezary" "Ralph" "Jack"
 ```
+might need to fix permissions just do:
+```$xslt
+chmod 777 ./startTheGame.php 
+```
